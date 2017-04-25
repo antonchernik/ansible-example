@@ -1,0 +1,47 @@
+- name: PHP-FPM | Install list of php packages
+  apt: name={{item}}
+  with_items:
+    - php5-cli
+    - php-pear
+    - php5-curl
+    - php5-gd
+    - php5-mcrypt
+    - php5-intl
+    - php5-fpm
+    - php5-memcached
+    - php5-xsl
+    - imagemagick
+    - php5-imagick
+
+- template:
+    src: ../templates/php/cli/php.ini.j2
+    dest: /etc/php5/cli/php.ini
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- template:
+    src: ../templates/php/fpm/php.ini.j2
+    dest: /etc/php5/fpm/php.ini
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- template:
+    src: ../templates/php/fpm/pool.d/php.conf.j2
+    dest: /etc/php5/fpm/pool.d/php.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- file:
+    path: /etc/php5/fpm/pool.d/www.conf
+    state: absent
+
+- name: PHP-FPM | Starting PHP-FPM
+  service:
+    name: php5-fpm
+    state: restarted

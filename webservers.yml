@@ -1,0 +1,24 @@
+---
+- name: Install Nginx, PHP FPM
+  hosts: webservers
+  vars:
+   debian_codename: jessie
+   default_timezone: Europe/Kiev
+   default_upload_max_filesize: 4
+   default_php_user: user
+   default_php_group: user
+   default_php_memory_limit: 128
+  remote_user: user
+  become: yes
+  become_method: sudo
+  #accelerate: true
+  max_fail_percentage: 10
+  serial:
+   - "10%"
+   - "20%"
+   - "100%"
+  roles:
+   - common
+   - nginx
+   - nginx-http2
+   - php-fpm

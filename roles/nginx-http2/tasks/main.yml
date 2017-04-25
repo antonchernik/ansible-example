@@ -1,0 +1,40 @@
+- name: Adding backport sources.list deb url
+  lineinfile: dest=/etc/apt/sources.list line="deb http://httpredir.debian.org/debian/ {{ debian_codename }}-backports main contrib non-free"
+
+
+- name: Adding backport sources.list deb-src url
+  lineinfile: dest=/etc/apt/sources.list line="deb-src http://httpredir.debian.org/debian/ {{ debian_codename }}-backports main contrib non-free"
+
+- name: NGINX | Updating apt cache
+  apt:
+    update_cache: yes
+
+- name: Update the repository cache and update package "nginx" to latest version using default release backport
+  apt:
+    name: nginx
+    state: latest
+    default_release: "{{ debian_codename }}-backports"
+    update_cache: yes
+
+
+- name: Update the repository cache and update package "openssl" to latest version using default release backport
+  apt:
+    name: openssl
+    state: latest
+    default_release: "{{ debian_codename }}-backports"
+    update_cache: yes
+    only_upgrade:
+
+
+- template:
+    src: ../../nginx/templates/nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- name: NGINX | Starting NGINX
+  service:
+    name: nginx
+    state: started
