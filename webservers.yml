@@ -20,5 +20,5 @@
   roles:
    - common
    - nginx
-   - nginx-http2
+#   - nginx-http2
    - php-fpm
