@@ -3,13 +3,13 @@
   ping:
   remote_user: user
 
-- name: Run the equivalent of "apt-get update" as a separate step
+- name: Update and upgrade apt packages
+  become: true
   apt:
-   update_cache: yes
-
-- name: Update all packages to the latest version
-  apt:
-    upgrade: dist
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+    force: yes
 
 - name: Install list of common packages
   apt: name={{item}}

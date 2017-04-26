@@ -13,7 +13,7 @@
 
 - name: NGINX | Installing NGINX
   apt:
-    pkg: nginx
+    pkg: nginx-full
     state: latest
 
 - template:
