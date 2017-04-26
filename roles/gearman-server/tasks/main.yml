@@ -1,0 +1,20 @@
+---
+- name: GEARMAN SERVER | Install list of gearmand server nessesary packages
+  apt: name={{item}}
+  with_items:
+    - gcc
+    - g++
+    - libboost-dev
+    - libboost-program-options-dev
+    - libboost-all-dev
+    - libevent-dev
+    - cloog-ppl
+    - gperf
+    - uuid-dev
+    - gearman-job-server
+    - libgearman-dev
+
+- name: GEARMAN SERVER | Starting gearmand
+  service:
+    name: gearman-job-server
+    state: started
