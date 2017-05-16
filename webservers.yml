@@ -4,6 +4,7 @@
   vars:
    debian_codename: jessie
    default_timezone: Europe/Kiev
+   default_locale: ru_RU.UTF-8
    default_upload_max_filesize: 4
    default_php_user: user
    default_php_group: user

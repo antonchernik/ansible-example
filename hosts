@@ -1,4 +1,4 @@
 [webservers]
-localhost   ansible_connection=local    ansible_sudo_pass=access
+192.168.0.2   ansible_connection=ssh    ansible_user=user     ansible_ssh_pass=access     ansible_sudo_pass=access
 [dbservers]
-localhost   ansible_connection=local    ansible_sudo_pass=access
+192.168.0.2   ansible_connection=ssh    ansible_user=user     ansible_ssh_pass=access     ansible_sudo_pass=access

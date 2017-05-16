@@ -36,19 +36,20 @@
     - libcurl4-openssl-dev
     - libevent-dev
     - module-init-tools
+    - libc-bin
 
 
 # Ensure a locale exists.
 - locale_gen:
-    name: ru_RU.UTF-8
+    name: "{{ default_locale }}"
     state: present
 
 - name: update locales
   command: dpkg-reconfigure --frontend noninteractive locales
 
-- name: set timezone to Europe/Kiev
+- name: set timezone
   timezone:
-    name: Europe/Kiev
+    name: "{{ default_timezone }}"
 
 - name: write vimrc
   copy: src=vimrc dest=/etc/vim/vimrc owner=root group=root mode=0644
