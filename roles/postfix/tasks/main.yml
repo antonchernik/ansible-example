@@ -1,0 +1,18 @@
+---
+- name: postfix
+  apt: name={{item}}
+  with_items:
+    - postfix
+    - mailutils
+
+- template:
+    src: ../templates/etc/postfix/main.cf.j2
+    dest: /etc/postfix/main.cf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+
+- name: Ensure postfix is restarted
+  action: service name=postfix state=restarted

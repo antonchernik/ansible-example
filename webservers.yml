@@ -19,9 +19,10 @@
    - "20%"
    - "100%"
   roles:
-#   - common
-#   - nginx
+   - common
+   - nginx
 #   - nginx-http2
-#   - php-fpm
-#   - gearman-server
-#   - gearman-client
+   - php-fpm
+   - gearman-server
+   - gearman-client
+   - postfix
