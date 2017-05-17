@@ -30,4 +30,5 @@
    - gearman-client
    - postfix
    - mysql
+   - nodejs
 

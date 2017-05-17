@@ -1,0 +1,27 @@
+---
+- name: NodeJS | Add nodejs repository
+  command: chdir=/tmp curl -sL https://deb.nodesource.com/setup_6.x
+- name: NodeJS | Add nodejs repository
+  command: chdir=/tmp bash -
+
+- name: NodeJS | Updating apt cache
+  apt:
+    update_cache: yes
+
+- name: NodeJS | Install packages
+  apt: name={{item}}
+  with_items:
+    - libcairo2-dev
+    - libjpeg-dev
+    - libpango1.0-dev
+    - libgif-dev
+    - nodejs
+
+- name: Clean cache
+  command: npm cache clean -f
+
+- name: Npm upgrade to latest version
+  command: npm install npm@latest -g
+
+- name: Install n package
+  command: npm install -g n

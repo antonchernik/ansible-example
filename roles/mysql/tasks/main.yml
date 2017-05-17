@@ -1,3 +1,6 @@
+- name: Add MySQL repository key
+  apt_key: url=http://repo.mysql.com/RPM-GPG-KEY-mysql state=present
+
 - name: Adding mysql sources.list deb url
   lineinfile: dest=/etc/apt/sources.list line="deb http://repo.mysql.com/apt/debian/ {{ debian_codename }} mysql-5.7"
 
