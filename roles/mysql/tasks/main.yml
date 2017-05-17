@@ -1,0 +1,52 @@
+- name: Adding mysql sources.list deb url
+  lineinfile: dest=/etc/apt/sources.list line="deb http://repo.mysql.com/apt/debian/ {{ debian_codename }} mysql-5.7"
+
+
+- name: Adding mysql sources.list deb-src url
+  lineinfile: dest=/etc/apt/sources.list line="deb-src http://repo.mysql.com/apt/debian/ {{ debian_codename }} mysql-5.7"
+
+- name: Mysql | Updating apt cache
+  apt:
+    update_cache: yes
+
+- name: Install MySQL
+  apt: name={{ item }} force=yes
+  with_items:
+   - python-mysqldb
+   - mysql-server
+
+- name: Update mysql root password for all root accounts
+  mysql_user:
+   name: root
+   host: "{{ item }}"
+   password: "{{ default_mysql_root_password }}"
+   login_user: root
+   login_password: "{{ default_mysql_root_password }}"
+   check_implicit_admin: yes
+   priv: "*.*:ALL,GRANT"
+  with_items:
+    - localhost
+
+- name: Add mysql default user
+  mysql_user:
+   name: "{{ default_mysql_user_login }}"
+   host: "{{ item }}"
+   password: "{{ default_mysql_user_password }}"
+   login_user: root
+   login_password: "{{ default_mysql_root_password }}"
+   check_implicit_admin: yes
+   priv: "*.*:ALL,GRANT"
+  with_items:
+    - "%"
+    - localhost
+
+- template:
+    src: ../templates/etc/mysql/my.cnf.j2
+    dest: /etc/mysql/my.cnf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Ensure mysql is restarted
+  action: service name=mysql state=restarted
+

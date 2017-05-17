@@ -9,6 +9,9 @@
    default_php_user: user
    default_php_group: user
    default_php_memory_limit: 128
+   default_mysql_root_password: access
+   default_mysql_user_login: user
+   default_mysql_user_password: access
   remote_user: user
   become: yes
   become_method: sudo
@@ -26,3 +29,5 @@
    - gearman-server
    - gearman-client
    - postfix
+   - mysql
+
