@@ -14,11 +14,17 @@
     - libgearman-dev
 
 
-- name: Get the Latest Gearman Job Server
-  get_url: url=https://launchpad.net/gearmand/1.2/1.1.12/+download/gearmand-1.1.12.tar.gz dest=/opt/
+#- name: Get the Latest Gearman Job Server
+#  get_url: url=https://launchpad.net/gearmand/1.2/1.1.12/+download/gearmand-1.1.12.tar.gz dest=/opt/
 
-- name: go to folder untar
-  command: chdir=/opt tar -xvzf gearmand-1.1.12.tar.gz
+#- name: go to folder untar
+#  command: chdir=/opt tar -xvzf gearmand-1.1.12.tar.gz
+
+- unarchive:
+   src: https://launchpad.net/gearmand/1.2/1.1.12/+download/gearmand-1.1.12.tar.gz
+   dest: /opt/
+   remote_src: true
+
 
 - name: Configure
   command: chdir=/opt/gearmand-1.1.12 ./configure
@@ -29,7 +35,7 @@
 - name: Make Install The Gearman
   command: chdir=/opt/gearmand-1.1.12 make install
 
-- name: Make Install The Gearman
+- name: Ldconfig Install The Gearman
   command: chdir=/opt/gearmand-1.1.12 ldconfig
 
 - template:
@@ -38,13 +44,10 @@
     owner: root
     group: root
     mode: "u=rwx,go=rx"
-    backup: yes
+
 
 - name: Update script list
   command: update-rc.d -f gearmand defaults
 
-#- name: Reload systemctl daemon
-#  command: systemctl daemon-reload
-
-- name: Ensure my daemon myd is started
-  action: service name=gearmand state=started
+- name: Ensure gearmand is restarted
+  action: service name=gearmand state=restarted

@@ -1,0 +1,41 @@
+---
+- name: GEARMAN SERVER | Install list of gearmand server nessesary packages
+  apt: name={{item}}
+  with_items:
+    - gcc
+    - g++
+    - libboost-dev
+    - libboost-program-options-dev
+    - libboost-all-dev
+    - libevent-dev
+    - cloog-ppl
+    - gperf
+    - uuid-dev
+    - libgearman-dev
+    - php5-dev
+
+- unarchive:
+   src: https://pecl.php.net/get/gearman-1.1.2.tgz
+   dest: /opt/
+   remote_src: true
+
+- name: Phpize
+  command: chdir=/opt/gearman-1.1.2 phpize
+
+- name: Configure
+  command: chdir=/opt/gearman-1.1.2 ./configure
+
+- name: Make
+  command: chdir=/opt/gearman-1.1.2 make
+
+- name: Make install
+  command: chdir=/opt/gearman-1.1.2 make install
+
+- name: Write 20-gearman.ini
+  copy: src=gearman.ini dest=/etc/php5/cli/conf.d/20-gearman.ini owner=root group=root mode=0644
+
+- name: Write 20-gearman.ini
+  copy: src=gearman.ini dest=/etc/php5/fpm/conf.d/20-gearman.ini owner=root group=root mode=0644
+
+- name: Ensure php5-fpm is restarted
+  action: service name=php5-fpm state=restarted
