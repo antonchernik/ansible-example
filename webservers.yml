@@ -12,6 +12,8 @@
    default_mysql_root_password: access
    default_mysql_user_login: user
    default_mysql_user_password: access
+   default_mysql_port: 3306
+   default_ssh_port: 22
   remote_user: user
   become: yes
   become_method: sudo
@@ -23,13 +25,14 @@
    - "100%"
   roles:
    - common
+   - security-init
    - nginx
 #   - nginx-http2
-#   - php-fpm
-#   - gearman-server
-#   - gearman-client
-#   - postfix
-#   - mysql
+   - php-fpm
+   - gearman-server
+   - gearman-client
+   - postfix
+   - mysql
    - nodejs
-#   - mongodb
-
+   - mongodb
+   - security-enable

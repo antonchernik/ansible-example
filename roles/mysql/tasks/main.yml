@@ -53,3 +53,6 @@
 - name: Ensure mysql is restarted
   action: service name=mysql state=restarted
 
+- name: Flush ipset blacklist
+  shell: "iptables -A INPUT -m set --match-set soho src -p tcp --dport {{ default_mysql_port }} -j ACCEPT"
+

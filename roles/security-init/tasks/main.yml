@@ -1,0 +1,40 @@
+- name: Install list of common packages
+  apt: name={{item}}
+  with_items:
+    - ipset
+
+- template:
+    src: ../templates/etc/iptables.up.rules
+    dest: /etc/iptables.up.rules
+    owner: root
+    group: root
+    mode: "u=rw,go=r"
+
+- name: Flush ipset blacklist
+  shell: iptables -F
+
+- name: Flush ipset blacklist
+  shell: ipset -F
+
+- name: Copy init-ipset.sh
+  copy: src=ipset/init-ipset.sh dest=/opt/init-ipset.sh owner=root group=root mode=0777
+
+- name: Download china ipset
+  get_url:
+    url: http://www.ipdeny.com/ipblocks/data/countries/cn.zone
+    dest: /etc/cn.ipset
+    mode: 0664
+
+- name: Copy blacklist ipset
+  copy: src=ipset/blacklist.ipset dest=/etc/blacklist.ipset owner=root group=root mode=0664
+
+- name: Copy soho ipset
+  copy: src=ipset/soho.ipset dest=/etc/soho.ipset owner=root group=root mode=0664
+
+
+- name: Init sets
+  shell: bash /opt/init-ipset.sh
+
+- name: Restore iptables
+  shell: iptables-restore < /etc/iptables.up.rules
+

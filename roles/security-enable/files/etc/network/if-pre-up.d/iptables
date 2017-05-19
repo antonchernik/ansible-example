@@ -1,0 +1,8 @@
+#!/bin/sh
+ipset -N blacklist hash:net;
+ipset -N china hash:net;
+ipset -N soho hash:net;
+for i in $(cat /etc/blacklist.ipset ); do ipset -A blacklist $i; done
+for i in $(cat /etc/cn.ipset ); do ipset -A china $i; done
+for i in $(cat /etc/soho.ipset ); do ipset -A soho $i; done
+/sbin/iptables-restore < /etc/iptables.up.rules

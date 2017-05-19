@@ -1,0 +1,8 @@
+#Save iptables
+- name: Save iptables
+  shell: iptables-save > /etc/iptables.up.rules
+
+
+#Write iptables
+- name: Copy init script
+  copy: src=etc/network/if-pre-up.d/iptables dest=/etc/network/if-pre-up.d/iptables owner=root group=root mode=0755
