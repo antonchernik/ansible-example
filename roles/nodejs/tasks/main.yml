@@ -1,8 +1,14 @@
 ---
-- name: NodeJS | Add nodejs repository
-  command: chdir=/tmp curl -sL https://deb.nodesource.com/setup_6.x
-- name: NodeJS | Add nodejs repository
-  command: chdir=/tmp bash -
+- name: Download setup_6.x
+  get_url:
+    url: https://deb.nodesource.com/setup_6.x
+    dest: /tmp/setup_6.x.sh
+    mode: 0777
+
+- name: Run setup_6.x.sh
+  shell: bash setup_6.x.sh
+  args:
+    chdir: /tmp/
 
 - name: NodeJS | Updating apt cache
   apt:

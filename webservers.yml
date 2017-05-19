@@ -25,11 +25,11 @@
    - common
    - nginx
 #   - nginx-http2
-   - php-fpm
-   - gearman-server
-   - gearman-client
-   - postfix
-   - mysql
+#   - php-fpm
+#   - gearman-server
+#   - gearman-client
+#   - postfix
+#   - mysql
    - nodejs
-   - mongodb
+#   - mongodb
 
