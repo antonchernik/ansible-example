@@ -20,7 +20,7 @@
 # http://dev.mysql.com/doc/mysql/en/server-system-variables.html
 
 [client]
-port		= 3306
+port		= {{ default_mysql_port }}
 socket		= /var/run/mysqld/mysqld.sock
 
 [mysqld_safe]
@@ -32,7 +32,7 @@ nice		= 0
 user		= mysql
 pid-file	= /var/run/mysqld/mysqld.pid
 socket		= /var/run/mysqld/mysqld.sock
-port		= 3306
+port		= {{ default_mysql_port }}
 basedir		= /usr
 datadir		= /var/lib/mysql
 tmpdir		= /tmp
